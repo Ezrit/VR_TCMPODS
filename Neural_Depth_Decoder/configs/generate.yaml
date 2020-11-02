@@ -1,0 +1,43 @@
+dataset :
+    path : .../VR_TCMPODS/Neural_Depth_Decoder/dataset/cave
+    image_width : 1200
+    image_height : 600
+    load_dynamic : True
+
+network:
+    num_layers : 6
+    num_intermediate_channels : 128
+
+training :
+    # general stuff
+    initial_checkpoint : .../VR_TCMPODS/Neural_Depth_Decoder/checkpoints/final/cave/epoch_105
+    reset_optimizer : True
+    use_cuda : True
+    gpu_index : 0
+    batch_size : 2
+    shuffle_loading : True
+    num_workers : 2
+    num_epochs : 10000
+    # optimization
+    learningrate : 0.0001
+    learningrate_decay : 1.0
+    learningrate_decay_stepsize : 10
+    adam_beta1 : 0.9
+    adam_beta2 : 0.999
+    # loss
+    data_loss_type : l1 # l1, mse, smooth_l1
+    data_loss_weighting_threshold : 0.235
+    data_loss_lambda : 1.0
+    smoothness_image_exponent : 40.0
+    smoothness_loss_lambda : 0.0
+    temporal_image_exponent : 40.0
+    temporal_loss_lambda : 0.0
+
+io :
+    name_prefix : cave_finetuned
+    tensorboard_logdir : .../VR_TCMPODS/Neural_Depth_Decoder/tensorboard_logs
+    output_checkpoints_dir : .../VR_TCMPODS/Neural_Depth_Decoder/checkpoints
+    visualization_indices : !!python/tuple [15, 710, 900]
+    checkpoint_backup_interval : 5
+    visualization_interval : 1
+    network_output_path : .../VR_TCMPODS/Neural_Depth_Decoder/output/cave_finetuned
